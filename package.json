@@ -1,5 +1,5 @@
 {
-  "name": "static-api-json-schema",
+  "name": "condenser-registry",
   "version": "0.1.0",
   "type": "module",
   "description": "Transform yaml into schema.org-compatible JSON-LD files and deploy as a static API.",
