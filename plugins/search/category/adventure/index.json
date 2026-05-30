@@ -1,0 +1,31 @@
+{
+  "$schema": "https://condenser-team.github.io/condenser-registry/schema/search-value",
+  "@context": "https://schema.org/",
+  "@type": "ItemList",
+  "@id": "https://condenser-team.github.io/condenser-registry/plugins/search/category/adventure",
+  "name": "plugins category adventure",
+  "about": [
+    {
+      "@id": "https://condenser-team.github.io/condenser-registry/plugins",
+      "@type": "ItemList",
+      "name": "plugins collection"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "adventure",
+      "inDefinedTermSet": {
+        "@id": "https://condenser-team.github.io/condenser-registry/plugins/search/category"
+      }
+    }
+  ],
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "item": {
+        "@id": "https://condenser-team.github.io/condenser-registry/plugins/example-plugin",
+        "@type": "SoftwareApplication",
+        "name": "Example Plugin"
+      }
+    }
+  ]
+}

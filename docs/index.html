@@ -1,0 +1,247 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Static API JSON Schema Docs</title>
+  </head>
+  <body>
+    <h1>Static API JSON Schema</h1>
+    <p>Version 0.1.0</p>
+    <h2>Root Index</h2>
+    <p><code>https://condenser-team.github.io/condenser-registry/</code></p>
+    <h3>Example Response</h3>
+    <pre><code>{
+  &quot;@context&quot;: &quot;https://schema.org/&quot;,
+  &quot;@type&quot;: &quot;DataCatalog&quot;,
+  &quot;@id&quot;: &quot;https://condenser-team.github.io/condenser-registry&quot;,
+  &quot;name&quot;: &quot;Static API JSON Schema&quot;,
+  &quot;version&quot;: &quot;0.1.0&quot;,
+  &quot;hasPart&quot;: [
+    {
+      &quot;@id&quot;: &quot;https://condenser-team.github.io/condenser-registry/authors&quot;,
+      &quot;@type&quot;: &quot;ItemList&quot;,
+      &quot;name&quot;: &quot;authors&quot;
+    },
+    {
+      &quot;@id&quot;: &quot;https://condenser-team.github.io/condenser-registry/plugins&quot;,
+      &quot;@type&quot;: &quot;ItemList&quot;,
+      &quot;name&quot;: &quot;plugins&quot;
+    }
+  ]
+}</code></pre>
+    <h2>Collections</h2>
+    <ul><li><code>https://condenser-team.github.io/condenser-registry/authors</code></li><li><code>https://condenser-team.github.io/condenser-registry/plugins</code></li></ul>
+    
+    <h2>authors</h2>
+    <p>This section describes collection indexes, resource documents, version documents, and search indexes for <code>authors</code>.</p>
+    
+    <h3>Collection Index</h3>
+    <p>Example Request: <code>https://condenser-team.github.io/condenser-registry/authors</code></p>
+    <p>Example Response:</p>
+    <pre><code>{
+  &quot;@context&quot;: &quot;https://schema.org/&quot;,
+  &quot;@type&quot;: &quot;ItemList&quot;,
+  &quot;@id&quot;: &quot;https://condenser-team.github.io/condenser-registry/authors&quot;,
+  &quot;name&quot;: &quot;authors collection&quot;,
+  &quot;itemListElement&quot;: [
+    {
+      &quot;@type&quot;: &quot;ListItem&quot;,
+      &quot;item&quot;: {
+        &quot;@id&quot;: &quot;https://condenser-team.github.io/condenser-registry/authors/condenser-team&quot;,
+        &quot;@type&quot;: &quot;Organization&quot;,
+        &quot;name&quot;: &quot;Condenser Team&quot;
+      }
+    }
+  ]
+}</code></pre>
+    <h3>Resource Document</h3>
+    <p>Example Request: <code>https://condenser-team.github.io/condenser-registry/authors/condenser-team</code></p>
+    <p>Example Response:</p>
+    <pre><code>{
+  &quot;type&quot;: &quot;Organization&quot;,
+  &quot;name&quot;: &quot;Condenser Team&quot;,
+  &quot;description&quot;: &quot;Building core plugins to share with the world.&quot;,
+  &quot;url&quot;: &quot;https://github.com/condenser-team&quot;
+}</code></pre>
+    <h3>Search Manifest</h3>
+    <p>Example Request: <code>https://condenser-team.github.io/condenser-registry/authors/search</code></p>
+    <p>Example Response:</p>
+    <pre><code>{
+  &quot;@context&quot;: &quot;https://schema.org/&quot;,
+  &quot;@type&quot;: &quot;ItemList&quot;,
+  &quot;@id&quot;: &quot;https://condenser-team.github.io/condenser-registry/authors/search&quot;,
+  &quot;name&quot;: &quot;authors search&quot;,
+  &quot;about&quot;: [
+    {
+      &quot;@id&quot;: &quot;https://condenser-team.github.io/condenser-registry/authors&quot;,
+      &quot;@type&quot;: &quot;ItemList&quot;,
+      &quot;name&quot;: &quot;authors collection&quot;
+    }
+  ],
+  &quot;itemListElement&quot;: [
+    {
+      &quot;@type&quot;: &quot;ListItem&quot;,
+      &quot;item&quot;: {
+        &quot;@id&quot;: &quot;https://condenser-team.github.io/condenser-registry/authors/search/name&quot;,
+        &quot;@type&quot;: &quot;ItemList&quot;,
+        &quot;name&quot;: &quot;name&quot;
+      }
+    }
+  ]
+}</code></pre>
+    <h3>Search Value Index</h3>
+    <p>Example Request: <code>https://condenser-team.github.io/condenser-registry/authors/search/name/condenser-team</code></p>
+    <p>Example Response:</p>
+    <pre><code>{
+  &quot;@context&quot;: &quot;https://schema.org/&quot;,
+  &quot;@type&quot;: &quot;ItemList&quot;,
+  &quot;@id&quot;: &quot;https://condenser-team.github.io/condenser-registry/authors/search/name/condenser-team&quot;,
+  &quot;name&quot;: &quot;authors name Condenser Team&quot;,
+  &quot;about&quot;: [
+    {
+      &quot;@id&quot;: &quot;https://condenser-team.github.io/condenser-registry/authors&quot;,
+      &quot;@type&quot;: &quot;ItemList&quot;,
+      &quot;name&quot;: &quot;authors collection&quot;
+    },
+    {
+      &quot;@type&quot;: &quot;DefinedTerm&quot;,
+      &quot;name&quot;: &quot;Condenser Team&quot;,
+      &quot;inDefinedTermSet&quot;: {
+        &quot;@id&quot;: &quot;https://condenser-team.github.io/condenser-registry/authors/search/name&quot;
+      }
+    }
+  ],
+  &quot;itemListElement&quot;: [
+    {
+      &quot;@type&quot;: &quot;ListItem&quot;,
+      &quot;item&quot;: {
+        &quot;@id&quot;: &quot;https://condenser-team.github.io/condenser-registry/authors/condenser-team&quot;,
+        &quot;@type&quot;: &quot;Organization&quot;,
+        &quot;name&quot;: &quot;Condenser Team&quot;
+      }
+    }
+  ]
+}</code></pre>
+    <h2>plugins</h2>
+    <p>This section describes collection indexes, resource documents, version documents, and search indexes for <code>plugins</code>.</p>
+    
+    <h3>Collection Index</h3>
+    <p>Example Request: <code>https://condenser-team.github.io/condenser-registry/plugins</code></p>
+    <p>Example Response:</p>
+    <pre><code>{
+  &quot;@context&quot;: &quot;https://schema.org/&quot;,
+  &quot;@type&quot;: &quot;ItemList&quot;,
+  &quot;@id&quot;: &quot;https://condenser-team.github.io/condenser-registry/plugins&quot;,
+  &quot;name&quot;: &quot;plugins collection&quot;,
+  &quot;itemListElement&quot;: [
+    {
+      &quot;@type&quot;: &quot;ListItem&quot;,
+      &quot;item&quot;: {
+        &quot;@id&quot;: &quot;https://condenser-team.github.io/condenser-registry/plugins/example-plugin&quot;,
+        &quot;@type&quot;: &quot;SoftwareApplication&quot;,
+        &quot;name&quot;: &quot;Example Plugin&quot;
+      }
+    }
+  ]
+}</code></pre>
+    <h3>Resource Document</h3>
+    <p>Example Request: <code>https://condenser-team.github.io/condenser-registry/plugins/example-plugin</code></p>
+    <p>Example Response:</p>
+    <pre><code>{
+  &quot;type&quot;: &quot;SoftwareApplication&quot;,
+  &quot;name&quot;: &quot;Example Plugin&quot;,
+  &quot;description&quot;: &quot;Demo plugin demonstrating all Condenser surfaces: Tab, Panel, Page, Persistent, Toast, Modal, and Context Menu.&quot;,
+  &quot;category&quot;: &quot;adventure&quot;,
+  &quot;author&quot;: &quot;/authors/condenser-team&quot;,
+  &quot;url&quot;: &quot;/plugins/example-plugin&quot;,
+  &quot;image&quot;: &quot;/plugins/example-plugin/index.jpg&quot;,
+  &quot;tags&quot;: [
+    &quot;example&quot;
+  ]
+}</code></pre>
+    <h3>Version Document</h3>
+    <p>Example Request: <code>https://condenser-team.github.io/condenser-registry/plugins/example-plugin/versions/1.0.0</code></p>
+    <p>Example Response:</p>
+    <pre><code>{
+  &quot;@context&quot;: &quot;https://schema.org/&quot;,
+  &quot;@type&quot;: &quot;SoftwareApplication&quot;,
+  &quot;@id&quot;: &quot;https://condenser-team.github.io/condenser-registry/plugins/example-plugin/versions/1.0.0&quot;,
+  &quot;version&quot;: &quot;1.0.0&quot;
+}</code></pre>
+    <h3>Search Manifest</h3>
+    <p>Example Request: <code>https://condenser-team.github.io/condenser-registry/plugins/search</code></p>
+    <p>Example Response:</p>
+    <pre><code>{
+  &quot;@context&quot;: &quot;https://schema.org/&quot;,
+  &quot;@type&quot;: &quot;ItemList&quot;,
+  &quot;@id&quot;: &quot;https://condenser-team.github.io/condenser-registry/plugins/search&quot;,
+  &quot;name&quot;: &quot;plugins search&quot;,
+  &quot;about&quot;: [
+    {
+      &quot;@id&quot;: &quot;https://condenser-team.github.io/condenser-registry/plugins&quot;,
+      &quot;@type&quot;: &quot;ItemList&quot;,
+      &quot;name&quot;: &quot;plugins collection&quot;
+    }
+  ],
+  &quot;itemListElement&quot;: [
+    {
+      &quot;@type&quot;: &quot;ListItem&quot;,
+      &quot;item&quot;: {
+        &quot;@id&quot;: &quot;https://condenser-team.github.io/condenser-registry/plugins/search/category&quot;,
+        &quot;@type&quot;: &quot;ItemList&quot;,
+        &quot;name&quot;: &quot;category&quot;
+      }
+    },
+    {
+      &quot;@type&quot;: &quot;ListItem&quot;,
+      &quot;item&quot;: {
+        &quot;@id&quot;: &quot;https://condenser-team.github.io/condenser-registry/plugins/search/tags&quot;,
+        &quot;@type&quot;: &quot;ItemList&quot;,
+        &quot;name&quot;: &quot;tags&quot;
+      }
+    },
+    {
+      &quot;@type&quot;: &quot;ListItem&quot;,
+      &quot;item&quot;: {
+        &quot;@id&quot;: &quot;https://condenser-team.github.io/condenser-registry/plugins/search/name&quot;,
+        &quot;@type&quot;: &quot;ItemList&quot;,
+        &quot;name&quot;: &quot;name&quot;
+      }
+    }
+  ]
+}</code></pre>
+    <h3>Search Value Index</h3>
+    <p>Example Request: <code>https://condenser-team.github.io/condenser-registry/plugins/search/category/adventure</code></p>
+    <p>Example Response:</p>
+    <pre><code>{
+  &quot;@context&quot;: &quot;https://schema.org/&quot;,
+  &quot;@type&quot;: &quot;ItemList&quot;,
+  &quot;@id&quot;: &quot;https://condenser-team.github.io/condenser-registry/plugins/search/category/adventure&quot;,
+  &quot;name&quot;: &quot;plugins category adventure&quot;,
+  &quot;about&quot;: [
+    {
+      &quot;@id&quot;: &quot;https://condenser-team.github.io/condenser-registry/plugins&quot;,
+      &quot;@type&quot;: &quot;ItemList&quot;,
+      &quot;name&quot;: &quot;plugins collection&quot;
+    },
+    {
+      &quot;@type&quot;: &quot;DefinedTerm&quot;,
+      &quot;name&quot;: &quot;adventure&quot;,
+      &quot;inDefinedTermSet&quot;: {
+        &quot;@id&quot;: &quot;https://condenser-team.github.io/condenser-registry/plugins/search/category&quot;
+      }
+    }
+  ],
+  &quot;itemListElement&quot;: [
+    {
+      &quot;@type&quot;: &quot;ListItem&quot;,
+      &quot;item&quot;: {
+        &quot;@id&quot;: &quot;https://condenser-team.github.io/condenser-registry/plugins/example-plugin&quot;,
+        &quot;@type&quot;: &quot;SoftwareApplication&quot;,
+        &quot;name&quot;: &quot;Example Plugin&quot;
+      }
+    }
+  ]
+}</code></pre>
+  </body>
+</html>

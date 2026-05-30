@@ -1,0 +1,30 @@
+{
+  "$schema": "https://condenser-team.github.io/condenser-registry/schema/root",
+  "@context": "https://schema.org/",
+  "@type": "DataCatalog",
+  "@id": "https://condenser-team.github.io/condenser-registry",
+  "name": "Static API JSON Schema",
+  "version": "0.1.0",
+  "hasPart": [
+    {
+      "@id": "https://condenser-team.github.io/condenser-registry/authors",
+      "@type": "ItemList",
+      "name": "authors"
+    },
+    {
+      "@id": "https://condenser-team.github.io/condenser-registry/plugins",
+      "@type": "ItemList",
+      "name": "plugins"
+    },
+    {
+      "@id": "https://condenser-team.github.io/condenser-registry/authors/search",
+      "@type": "ItemList",
+      "name": "authors search"
+    },
+    {
+      "@id": "https://condenser-team.github.io/condenser-registry/plugins/search",
+      "@type": "ItemList",
+      "name": "plugins search"
+    }
+  ]
+}

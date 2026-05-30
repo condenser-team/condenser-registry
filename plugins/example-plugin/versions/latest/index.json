@@ -1,0 +1,35 @@
+{
+  "$schema": "https://condenser-team.github.io/condenser-registry/schema/plugins/versions",
+  "@context": "https://schema.org/",
+  "@type": "SoftwareApplication",
+  "@id": "https://condenser-team.github.io/condenser-registry/plugins/example-plugin/versions/1.0.0",
+  "name": "Example Plugin 1.0.0",
+  "version": "1.0.0",
+  "datePublished": "2026-05-29",
+  "releaseNotes": "First public prototype release.",
+  "isPartOf": {
+    "@id": "https://condenser-team.github.io/condenser-registry/plugins/example-plugin",
+    "@type": "SoftwareApplication",
+    "name": "Example Plugin"
+  },
+  "associatedMedia": [
+    {
+      "@type": "MediaObject",
+      "name": "Example Plugin v1.0.0",
+      "encodingFormat": "application/zip",
+      "license": "https://spdx.org/licenses/MIT.html",
+      "operatingSystem": [
+        "linux",
+        "macos",
+        "windows"
+      ],
+      "processorRequirements": [
+        "x86_64",
+        "arm64"
+      ],
+      "contentSize": 44,
+      "sha256": "a2d40a411a2036e8f8caccc3bbc1ab21b6abaa78b5c721095404d2f9f23fec84",
+      "contentUrl": "https://condenser-team.github.io/condenser-registry/plugins/example-plugin/versions/1.0.0/assets/example-plugin-1.0.0.zip"
+    }
+  ]
+}

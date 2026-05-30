@@ -1,0 +1,46 @@
+{
+  "apiName": "Static API JSON Schema",
+  "apiVersion": "0.1.0",
+  "definitions": [
+    {
+      "name": "root",
+      "path": "/schema/root",
+      "url": "https://condenser-team.github.io/condenser-registry/schema/root"
+    },
+    {
+      "name": "collection",
+      "path": "/schema/collection",
+      "url": "https://condenser-team.github.io/condenser-registry/schema/collection"
+    },
+    {
+      "name": "search-manifest",
+      "path": "/schema/search-manifest",
+      "url": "https://condenser-team.github.io/condenser-registry/schema/search-manifest"
+    },
+    {
+      "name": "search-value",
+      "path": "/schema/search-value",
+      "url": "https://condenser-team.github.io/condenser-registry/schema/search-value"
+    },
+    {
+      "name": "version",
+      "path": "/schema/version",
+      "url": "https://condenser-team.github.io/condenser-registry/schema/version"
+    },
+    {
+      "name": "plugins-resource",
+      "path": "/schema/plugins",
+      "url": "https://condenser-team.github.io/condenser-registry/schema/plugins"
+    },
+    {
+      "name": "plugins-version",
+      "path": "/schema/plugins/versions",
+      "url": "https://condenser-team.github.io/condenser-registry/schema/plugins/versions"
+    },
+    {
+      "name": "authors-resource",
+      "path": "/schema/authors",
+      "url": "https://condenser-team.github.io/condenser-registry/schema/authors"
+    }
+  ]
+}

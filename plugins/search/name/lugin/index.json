@@ -1,0 +1,31 @@
+{
+  "$schema": "https://condenser-team.github.io/condenser-registry/schema/search-value",
+  "@context": "https://schema.org/",
+  "@type": "ItemList",
+  "@id": "https://condenser-team.github.io/condenser-registry/plugins/search/name/lugin",
+  "name": "plugins name lugin",
+  "about": [
+    {
+      "@id": "https://condenser-team.github.io/condenser-registry/plugins",
+      "@type": "ItemList",
+      "name": "plugins collection"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "lugin",
+      "inDefinedTermSet": {
+        "@id": "https://condenser-team.github.io/condenser-registry/plugins/search/name"
+      }
+    }
+  ],
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "item": {
+        "@id": "https://condenser-team.github.io/condenser-registry/plugins/example-plugin",
+        "@type": "SoftwareApplication",
+        "name": "Example Plugin"
+      }
+    }
+  ]
+}

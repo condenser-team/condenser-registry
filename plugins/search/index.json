@@ -1,0 +1,40 @@
+{
+  "$schema": "https://condenser-team.github.io/condenser-registry/schema/search-manifest",
+  "@context": "https://schema.org/",
+  "@type": "ItemList",
+  "@id": "https://condenser-team.github.io/condenser-registry/plugins/search",
+  "name": "plugins search",
+  "about": [
+    {
+      "@id": "https://condenser-team.github.io/condenser-registry/plugins",
+      "@type": "ItemList",
+      "name": "plugins collection"
+    }
+  ],
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "item": {
+        "@id": "https://condenser-team.github.io/condenser-registry/plugins/search/category",
+        "@type": "ItemList",
+        "name": "category"
+      }
+    },
+    {
+      "@type": "ListItem",
+      "item": {
+        "@id": "https://condenser-team.github.io/condenser-registry/plugins/search/tags",
+        "@type": "ItemList",
+        "name": "tags"
+      }
+    },
+    {
+      "@type": "ListItem",
+      "item": {
+        "@id": "https://condenser-team.github.io/condenser-registry/plugins/search/name",
+        "@type": "ItemList",
+        "name": "name"
+      }
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "$schema": "https://condenser-team.github.io/condenser-registry/schema/authors",
+  "@context": "https://schema.org/",
+  "@type": "Organization",
+  "@id": "https://condenser-team.github.io/condenser-registry/authors/condenser-team",
+  "name": "Condenser Team",
+  "description": "Building core plugins to share with the world.",
+  "url": "https://github.com/condenser-team"
+}

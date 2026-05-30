@@ -1,0 +1,96 @@
+{
+  "$schema": "https://condenser-team.github.io/condenser-registry/schema/search-manifest",
+  "@context": "https://schema.org/",
+  "@type": "ItemList",
+  "@id": "https://condenser-team.github.io/condenser-registry/plugins/search/name",
+  "name": "plugins search by name",
+  "about": [
+    {
+      "@id": "https://condenser-team.github.io/condenser-registry/plugins",
+      "@type": "ItemList",
+      "name": "plugins collection"
+    }
+  ],
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "item": {
+        "@id": "https://condenser-team.github.io/condenser-registry/plugins/search/name/a",
+        "@type": "ItemList",
+        "name": "a"
+      }
+    },
+    {
+      "@type": "ListItem",
+      "item": {
+        "@id": "https://condenser-team.github.io/condenser-registry/plugins/search/name/e",
+        "@type": "ItemList",
+        "name": "e"
+      }
+    },
+    {
+      "@type": "ListItem",
+      "item": {
+        "@id": "https://condenser-team.github.io/condenser-registry/plugins/search/name/g",
+        "@type": "ItemList",
+        "name": "g"
+      }
+    },
+    {
+      "@type": "ListItem",
+      "item": {
+        "@id": "https://condenser-team.github.io/condenser-registry/plugins/search/name/i",
+        "@type": "ItemList",
+        "name": "i"
+      }
+    },
+    {
+      "@type": "ListItem",
+      "item": {
+        "@id": "https://condenser-team.github.io/condenser-registry/plugins/search/name/l",
+        "@type": "ItemList",
+        "name": "l"
+      }
+    },
+    {
+      "@type": "ListItem",
+      "item": {
+        "@id": "https://condenser-team.github.io/condenser-registry/plugins/search/name/m",
+        "@type": "ItemList",
+        "name": "m"
+      }
+    },
+    {
+      "@type": "ListItem",
+      "item": {
+        "@id": "https://condenser-team.github.io/condenser-registry/plugins/search/name/n",
+        "@type": "ItemList",
+        "name": "n"
+      }
+    },
+    {
+      "@type": "ListItem",
+      "item": {
+        "@id": "https://condenser-team.github.io/condenser-registry/plugins/search/name/p",
+        "@type": "ItemList",
+        "name": "p"
+      }
+    },
+    {
+      "@type": "ListItem",
+      "item": {
+        "@id": "https://condenser-team.github.io/condenser-registry/plugins/search/name/u",
+        "@type": "ItemList",
+        "name": "u"
+      }
+    },
+    {
+      "@type": "ListItem",
+      "item": {
+        "@id": "https://condenser-team.github.io/condenser-registry/plugins/search/name/x",
+        "@type": "ItemList",
+        "name": "x"
+      }
+    }
+  ]
+}

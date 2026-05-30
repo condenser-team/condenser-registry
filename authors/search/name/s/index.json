@@ -1,0 +1,31 @@
+{
+  "$schema": "https://condenser-team.github.io/condenser-registry/schema/search-value",
+  "@context": "https://schema.org/",
+  "@type": "ItemList",
+  "@id": "https://condenser-team.github.io/condenser-registry/authors/search/name/s",
+  "name": "authors name s",
+  "about": [
+    {
+      "@id": "https://condenser-team.github.io/condenser-registry/authors",
+      "@type": "ItemList",
+      "name": "authors collection"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "s",
+      "inDefinedTermSet": {
+        "@id": "https://condenser-team.github.io/condenser-registry/authors/search/name"
+      }
+    }
+  ],
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "item": {
+        "@id": "https://condenser-team.github.io/condenser-registry/authors/condenser-team",
+        "@type": "Organization",
+        "name": "Condenser Team"
+      }
+    }
+  ]
+}

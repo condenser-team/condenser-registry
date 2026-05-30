@@ -1,0 +1,17 @@
+{
+  "$schema": "https://condenser-team.github.io/condenser-registry/schema/collection",
+  "@context": "https://schema.org/",
+  "@type": "ItemList",
+  "@id": "https://condenser-team.github.io/condenser-registry/authors",
+  "name": "authors collection",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "item": {
+        "@id": "https://condenser-team.github.io/condenser-registry/authors/condenser-team",
+        "@type": "Organization",
+        "name": "Condenser Team"
+      }
+    }
+  ]
+}

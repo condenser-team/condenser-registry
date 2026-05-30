@@ -1,0 +1,17 @@
+{
+  "$schema": "https://condenser-team.github.io/condenser-registry/schema/collection",
+  "@context": "https://schema.org/",
+  "@type": "ItemList",
+  "@id": "https://condenser-team.github.io/condenser-registry/plugins",
+  "name": "plugins collection",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "item": {
+        "@id": "https://condenser-team.github.io/condenser-registry/plugins/example-plugin",
+        "@type": "SoftwareApplication",
+        "name": "Example Plugin"
+      }
+    }
+  ]
+}
