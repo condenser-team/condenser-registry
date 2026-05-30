@@ -15,18 +15,18 @@ import { projectDefinition } from "../src/project.js";
 
 test("rejects multi-document YAML files", async () => {
   const cwd = await makeFixture({
-    "resources/publishers/acme/index.yaml": "type: Organization\nname: First\n---\ntype: Organization\nname: Second\n",
+    "resources/authors/acme/index.yaml": "type: Organization\nname: First\n---\ntype: Organization\nname: Second\n",
   });
 
   await assert.rejects(
-    () => loadYamlFile(path.join(cwd, "resources/publishers/acme/index.yaml")),
+    () => loadYamlFile(path.join(cwd, "resources/authors/acme/index.yaml")),
     (error: unknown) => error instanceof Error && error.message.includes("exactly one YAML document"),
   );
 });
 
 test("rejects YAML aliases and anchors", async () => {
   const cwd = await makeFixture({
-    "resources/publishers/acme/index.yaml": [
+    "resources/authors/acme/index.yaml": [
       "type: Organization",
       "defaults: &base",
       "  name: Acme Games",
@@ -36,38 +36,38 @@ test("rejects YAML aliases and anchors", async () => {
   });
 
   await assert.rejects(
-    () => loadYamlFile(path.join(cwd, "resources/publishers/acme/index.yaml")),
+    () => loadYamlFile(path.join(cwd, "resources/authors/acme/index.yaml")),
     (error: unknown) => error instanceof Error && error.message.includes("anchors and aliases"),
   );
 });
 
 test("rejects invalid semantic version filenames during discovery", async () => {
   const cwd = await makeFixture({
-    "resources/games/test/index.yaml": "type: SoftwareApplication\nname: Test Game\n",
-    "resources/games/test/versions/one.yaml": "type: SoftwareSourceCode\nversion: one\n",
+    "resources/plugins/test/index.yaml": "type: SoftwareApplication\nname: Test Game\n",
+    "resources/plugins/test/versions/one.yaml": "type: SoftwareSourceCode\nversion: one\n",
   });
 
   await assert.rejects(
-    () => discoverSources(cwd, makeTestConfig({ games: {} })),
+    () => discoverSources(cwd, makeTestConfig({ plugins: {} })),
     (error: unknown) => error instanceof Error && error.message.includes("semantic versioning"),
   );
 });
 
 test("rejects invalid path casing during discovery", async () => {
   const cwd = await makeFixture({
-    "resources/Games/test/index.yaml": "type: SoftwareApplication\nname: Test Game\n",
+    "resources/Plugins/test/index.yaml": "type: SoftwareApplication\nname: Test Game\n",
   });
 
   await assert.rejects(
-    () => discoverSources(cwd, makeTestConfig({ games: {} })),
+    () => discoverSources(cwd, makeTestConfig({ plugins: {} })),
     (error: unknown) => error instanceof Error && error.message.includes("lowercase ASCII letters"),
   );
 });
 
 test("normalizes and bounds asset paths to the resources root", () => {
   const root = path.resolve("/tmp/example/resources");
-  const inside = ensureInsideRoot(root, path.join(root, "games/test/file.zip"), "fixture.yaml", "path");
-  assert.equal(inside, path.join(root, "games/test/file.zip"));
+  const inside = ensureInsideRoot(root, path.join(root, "plugins/test/file.zip"), "fixture.yaml", "path");
+  assert.equal(inside, path.join(root, "plugins/test/file.zip"));
 
   assert.throws(
     () => ensureInsideRoot(root, path.join(root, "../outside.zip"), "fixture.yaml", "path"),
@@ -77,7 +77,7 @@ test("normalizes and bounds asset paths to the resources root", () => {
 
 test("rejects reserved resource path segments", () => {
   assert.throws(
-    () => assertSafeResourceSegment("search", "Resource identifier", "resources/games/search"),
+    () => assertSafeResourceSegment("search", "Resource identifier", "resources/plugins/search"),
     /reserved generated path segment/,
   );
 });
@@ -95,10 +95,10 @@ test("normalizes search values consistently", () => {
 
 test("detects output path collisions with detailed metadata", () => {
   const claims = new Map<string, string>();
-  engineTestHelpers.claimOutputPath(claims, "games/test/index.json", "resources/games/test/index.yaml");
+  engineTestHelpers.claimOutputPath(claims, "plugins/test/index.json", "resources/plugins/test/index.yaml");
 
   assert.throws(
-    () => engineTestHelpers.claimOutputPath(claims, "games/test/index.json", "resources/games/other/index.yaml"),
+    () => engineTestHelpers.claimOutputPath(claims, "plugins/test/index.json", "resources/plugins/other/index.yaml"),
     (error: unknown) =>
       error instanceof Error && "generatedPath" in error && "conflictingSource" in error && "originalValue" in error,
   );
@@ -107,8 +107,8 @@ test("detects output path collisions with detailed metadata", () => {
 test("detects search normalization collisions with detailed metadata", () => {
   const claims = new Map<string, { originalValue: string; resources: string[] }>();
   const first = engineTestHelpers.claimSearchValueNormalization(claims, {
-    attribute: "genre",
-    resourceType: "games",
+    attribute: "category",
+    resourceType: "plugins",
     originalValue: "C",
     normalizedValue: "c",
   });
@@ -117,8 +117,8 @@ test("detects search normalization collisions with detailed metadata", () => {
   assert.throws(
     () =>
       engineTestHelpers.claimSearchValueNormalization(claims, {
-        attribute: "genre",
-        resourceType: "games",
+        attribute: "category",
+        resourceType: "plugins",
         originalValue: "C++",
         normalizedValue: "c",
       }),
@@ -128,34 +128,34 @@ test("detects search normalization collisions with detailed metadata", () => {
 
 test("resolves internal references to JSON-LD reference objects", () => {
   const target = engineTestHelpers.resolveReference(
-    "/publishers/acme",
+    "/authors/acme",
     new Map([
       [
-        "/publishers/acme",
+        "/authors/acme",
         {
-          canonicalUrl: "https://example.com/publishers/acme",
+          canonicalUrl: "https://example.com/authors/acme",
           jsonLdType: "Organization",
           kind: "resource",
         },
       ],
     ]),
-    "resources/games/test/index.yaml",
+    "resources/plugins/test/index.yaml",
   );
 
   assert.deepEqual(target, {
-    "@id": "https://example.com/publishers/acme",
+    "@id": "https://example.com/authors/acme",
     "@type": "Organization",
   });
 });
 
 test("builds asset output paths and metadata for version-owned assets", async () => {
   const cwd = await makeFixture({
-    "resources/games/test/assets/test.zip": "zip payload",
+    "resources/plugins/test/assets/test.zip": "zip payload",
   });
 
   const claims = new Map<string, string>();
   const assets: GeneratedAsset[] = [];
-  const config: ProjectConfig = makeTestConfig({ games: {} });
+  const config: ProjectConfig = makeTestConfig({ plugins: {} });
   const resourcesRoot = path.join(cwd, "resources");
 
   const result = engineTestHelpers.copyAsset(
@@ -165,47 +165,47 @@ test("builds asset output paths and metadata for version-owned assets", async ()
     claims,
     assets,
     {
-      path: "/games/test/assets/test.zip",
+      path: "/plugins/test/assets/test.zip",
       encodingFormat: "application/zip",
     },
     {
-      resourceType: "games",
+      resourceType: "plugins",
       resourceId: "test",
       versionId: "1.0.0",
     },
-    "resources/games/test/versions/1.0.0.yaml",
+    "resources/plugins/test/versions/1.0.0.yaml",
   );
 
   assert.deepEqual(result, {
     encodingFormat: "application/zip",
     contentSize: 11,
     sha256: "53c145c16c9a03f8f7dcb6547e094195fd9596a5804f5e5bc140b1d7ec4b4197",
-    contentUrl: "https://example.com/games/test/versions/1.0.0/assets/test.zip",
+    contentUrl: "https://example.com/plugins/test/versions/1.0.0/assets/test.zip",
   });
   assert.deepEqual(assets, [
     {
-      sourcePath: path.join(cwd, "resources/games/test/assets/test.zip"),
-      outputPath: "games/test/versions/1.0.0/assets/test.zip",
-      urlPath: "/games/test/versions/1.0.0/assets/test.zip",
+      sourcePath: path.join(cwd, "resources/plugins/test/assets/test.zip"),
+      outputPath: "plugins/test/versions/1.0.0/assets/test.zip",
+      urlPath: "/plugins/test/versions/1.0.0/assets/test.zip",
     },
   ]);
 });
 
 test("collects recognized YAML files and versions from the canonical layout", async () => {
   const cwd = await makeFixture({
-    "resources/games/test/index.yaml": "type: SoftwareApplication\nname: Test Game\n",
-    "resources/games/test/versions/1.0.0.yaml": "type: SoftwareSourceCode\nversion: 1.0.0\n",
+    "resources/plugins/test/index.yaml": "type: SoftwareApplication\nname: Test Game\n",
+    "resources/plugins/test/versions/1.0.0.yaml": "type: SoftwareSourceCode\nversion: 1.0.0\n",
   });
 
-  const instances = await discoverSources(cwd, makeTestConfig({ games: {} }));
+  const instances = await discoverSources(cwd, makeTestConfig({ plugins: {} }));
   assert.equal(instances.length, 1);
-  assert.equal(instances[0]?.resource.resourceType, "games");
+  assert.equal(instances[0]?.resource.resourceType, "plugins");
   assert.equal(instances[0]?.versions[0]?.versionId, "1.0.0");
 });
 
 test("delete and modify rebuild flows update generated output", async () => {
   const registry: SchemaRegistry = {
-    games: {
+    plugins: {
       resourceSchema: z.object({
         type: z.literal("SoftwareApplication"),
         name: z.string(),
@@ -221,35 +221,35 @@ test("delete and modify rebuild flows update generated output", async () => {
   };
 
   const cwd = await makeFixture({
-    "resources/games/alpha/index.yaml": "type: SoftwareApplication\nname: Alpha\n",
-    "resources/games/beta/index.yaml": "type: SoftwareApplication\nname: Beta\n",
+    "resources/plugins/alpha/index.yaml": "type: SoftwareApplication\nname: Alpha\n",
+    "resources/plugins/beta/index.yaml": "type: SoftwareApplication\nname: Beta\n",
   });
 
-  await runBuild({ cwd, write: true, config: makeTestConfig({ games: {} }), mode: "development" }, registry);
-  let collection = JSON.parse(await fs.readFile(path.join(cwd, "out/games/index.json"), "utf8"));
+  await runBuild({ cwd, write: true, config: makeTestConfig({ plugins: {} }), mode: "development" }, registry);
+  let collection = JSON.parse(await fs.readFile(path.join(cwd, "out/plugins/index.json"), "utf8"));
   assert.equal(collection.itemListElement.length, 2);
 
   await fs.writeFile(
-    path.join(cwd, "resources/games/alpha/index.yaml"),
+    path.join(cwd, "resources/plugins/alpha/index.yaml"),
     "type: SoftwareApplication\nname: Alpha Prime\n",
     "utf8",
   );
-  await runBuild({ cwd, write: true, config: makeTestConfig({ games: {} }), mode: "development" }, registry);
+  await runBuild({ cwd, write: true, config: makeTestConfig({ plugins: {} }), mode: "development" }, registry);
 
-  const alpha = JSON.parse(await fs.readFile(path.join(cwd, "out/games/alpha/index.json"), "utf8"));
+  const alpha = JSON.parse(await fs.readFile(path.join(cwd, "out/plugins/alpha/index.json"), "utf8"));
   assert.equal(alpha.name, "Alpha Prime");
 
-  await fs.rm(path.join(cwd, "resources/games/beta"), { recursive: true, force: true });
-  await runBuild({ cwd, write: true, config: makeTestConfig({ games: {} }), mode: "development" }, registry);
+  await fs.rm(path.join(cwd, "resources/plugins/beta"), { recursive: true, force: true });
+  await runBuild({ cwd, write: true, config: makeTestConfig({ plugins: {} }), mode: "development" }, registry);
 
-  collection = JSON.parse(await fs.readFile(path.join(cwd, "out/games/index.json"), "utf8"));
+  collection = JSON.parse(await fs.readFile(path.join(cwd, "out/plugins/index.json"), "utf8"));
   assert.equal(collection.itemListElement.length, 1);
-  await assert.rejects(() => fs.readFile(path.join(cwd, "out/games/beta/index.json"), "utf8"));
+  await assert.rejects(() => fs.readFile(path.join(cwd, "out/plugins/beta/index.json"), "utf8"));
 });
 
 test("incremental sync rewrites only changed outputs and removes deleted outputs", async () => {
   const registry: SchemaRegistry = {
-    games: {
+    plugins: {
       resourceSchema: z.object({
         type: z.literal("SoftwareApplication"),
         name: z.string(),
@@ -265,29 +265,29 @@ test("incremental sync rewrites only changed outputs and removes deleted outputs
   };
 
   const cwd = await makeFixture({
-    "resources/games/alpha/index.yaml": "type: SoftwareApplication\nname: Alpha\n",
-    "resources/games/beta/index.yaml": "type: SoftwareApplication\nname: Beta\n",
+    "resources/plugins/alpha/index.yaml": "type: SoftwareApplication\nname: Alpha\n",
+    "resources/plugins/beta/index.yaml": "type: SoftwareApplication\nname: Beta\n",
   });
 
   const initial = await runBuild(
-    { cwd, write: true, config: makeTestConfig({ games: {} }), mode: "development" },
+    { cwd, write: true, config: makeTestConfig({ plugins: {} }), mode: "development" },
     registry,
   );
 
-  const alphaOut = path.join(cwd, "out/games/alpha/index.json");
-  const betaOut = path.join(cwd, "out/games/beta/index.json");
+  const alphaOut = path.join(cwd, "out/plugins/alpha/index.json");
+  const betaOut = path.join(cwd, "out/plugins/beta/index.json");
   const beforeAlpha = await fs.stat(alphaOut);
   const beforeBeta = await fs.stat(betaOut);
 
   await new Promise((resolve) => setTimeout(resolve, 20));
   await fs.writeFile(
-    path.join(cwd, "resources/games/alpha/index.yaml"),
+    path.join(cwd, "resources/plugins/alpha/index.yaml"),
     "type: SoftwareApplication\nname: Alpha Prime\n",
     "utf8",
   );
 
   const modified = await runBuild(
-    { cwd, write: false, config: makeTestConfig({ games: {} }), mode: "development" },
+    { cwd, write: false, config: makeTestConfig({ plugins: {} }), mode: "development" },
     registry,
   );
   await syncBuildResult(cwd, initial, modified);
@@ -298,10 +298,10 @@ test("incremental sync rewrites only changed outputs and removes deleted outputs
   assert.equal(afterBeta.mtimeMs, beforeBeta.mtimeMs);
 
   await new Promise((resolve) => setTimeout(resolve, 20));
-  await fs.rm(path.join(cwd, "resources/games/beta"), { recursive: true, force: true });
+  await fs.rm(path.join(cwd, "resources/plugins/beta"), { recursive: true, force: true });
 
   const deleted = await runBuild(
-    { cwd, write: false, config: makeTestConfig({ games: {} }), mode: "development" },
+    { cwd, write: false, config: makeTestConfig({ plugins: {} }), mode: "development" },
     registry,
   );
   await syncBuildResult(cwd, modified, deleted);
@@ -312,21 +312,21 @@ test("incremental sync rewrites only changed outputs and removes deleted outputs
 });
 
 // Schema Evolution Tests
-test("backwards compatibility: old game resource without optional fields parses with new schema", () => {
-  const oldGameData = {
+test("backwards compatibility: old plugin resource without optional fields parses with new schema", () => {
+  const oldPluginData = {
     type: "SoftwareApplication",
-    name: "Legacy Game",
-    description: "A game from the past",
-    genre: "Adventure",
-    publisher: "/publishers/acme",
+    name: "Legacy Plugin",
+    description: "A plugin from the past",
+    category: "Adventure",
+    author: "/authors/acme",
     url: "https://example.com/legacy",
   };
 
   const registry = projectDefinition.schemaRegistry;
-  assert(registry.games, "games registry must be defined");
-  const result = registry.games.resourceSchema.safeParse(oldGameData);
+  assert(registry.plugins, "plugins registry must be defined");
+  const result = registry.plugins.resourceSchema.safeParse(oldPluginData);
   assert.equal(result.success, true);
-  assert.equal(result.data.name, "Legacy Game");
+  assert.equal(result.data.name, "Legacy Plugin");
 });
 
 test("backwards compatibility: old game version without optional fields parses with new schema", () => {
@@ -346,9 +346,9 @@ test("backwards compatibility: old game version without optional fields parses w
   };
 
   const registry = projectDefinition.schemaRegistry;
-  assert(registry.games, "games registry must be defined");
-  assert(registry.games.versionSchema, "games versionSchema must be defined");
-  const result = registry.games.versionSchema.safeParse(oldVersionData);
+  assert(registry.plugins, "plugins registry must be defined");
+  assert(registry.plugins.versionSchema, "plugins versionSchema must be defined");
+  const result = registry.plugins.versionSchema.safeParse(oldVersionData);
   assert.equal(result.success, true);
   assert.equal(result.data.version, "1.0.0");
 });
@@ -359,24 +359,24 @@ test("breaking change detection: adding required field to schema fails old data"
     type: z.literal("SoftwareApplication"),
     name: z.string().min(1).max(256),
     description: z.string().min(1).max(256),
-    genre: z.string().min(1).max(64),
-    publisher: z.string().min(3).max(256),
+    category: z.string().min(1).max(64),
+    author: z.string().min(3).max(256),
     url: z.string().min(1).max(256),
     image: z.string().min(1).max(256), // Now required
     tags: z.array(z.string().min(1).max(64)).min(1).max(8).optional(),
   });
 
-  const oldGameData = {
+  const oldPluginData = {
     type: "SoftwareApplication",
-    name: "Legacy Game",
-    description: "A game from the past",
-    genre: "Adventure",
-    publisher: "/publishers/acme",
+    name: "Legacy Plugin",
+    description: "A plugin from the past",
+    category: "Adventure",
+    author: "/authors/acme",
     url: "https://example.com/legacy",
     // No image field
   };
 
-  const result = newSchema.safeParse(oldGameData);
+  const result = newSchema.safeParse(oldPluginData);
   assert.equal(result.success, false);
   assert.ok(result.error.issues.some((issue) => issue.path.includes("image")));
 });
@@ -387,24 +387,24 @@ test("optional field addition: new optional fields don't break old data", () => 
     type: z.literal("SoftwareApplication"),
     name: z.string().min(1).max(256),
     description: z.string().min(1).max(256),
-    genre: z.string().min(1).max(64),
-    publisher: z.string().min(3).max(256),
+    category: z.string().min(1).max(64),
+    author: z.string().min(3).max(256),
     url: z.string().min(1).max(256),
     image: z.string().min(1).max(256).optional(),
     tags: z.array(z.string().min(1).max(64)).min(1).max(8).optional(),
     rating: z.number().min(0).max(5).optional(), // New optional field
   });
 
-  const oldGameData = {
+  const oldPluginData = {
     type: "SoftwareApplication",
-    name: "Legacy Game",
-    description: "A game from the past",
-    genre: "Adventure",
-    publisher: "/publishers/acme",
+    name: "Legacy Plugin",
+    description: "A plugin from the past",
+    category: "Adventure",
+    author: "/authors/acme",
     url: "https://example.com/legacy",
   };
 
-  const result = evolvedSchema.safeParse(oldGameData);
+  const result = evolvedSchema.safeParse(oldPluginData);
   assert.equal(result.success, true);
   assert.equal(result.data.rating, undefined); // Optional field not present
 });

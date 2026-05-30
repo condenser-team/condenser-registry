@@ -6,14 +6,14 @@ import { resolvePublicUrl } from "../core/utils.js";
 const HttpsUrl = z.string().min(8).max(256).startsWith("https://");
 const PublicUrl = z.union([HttpsUrl, z.string().min(1).max(256).startsWith("/")]);
 
-const PublisherSchema = z.object({
+const AuthorSchema = z.object({
   type: z.literal("Organization"),
   name: z.string().min(1).max(256),
   description: z.string().min(1).max(256),
   url: PublicUrl,
 });
 
-const PublisherOutputSchema = z.object({
+const AuthorOutputSchema = z.object({
   "@context": z.string(),
   "@type": z.literal("Organization"),
   "@id": z.string().url(),
@@ -22,11 +22,11 @@ const PublisherOutputSchema = z.object({
   url: z.string().url(),
 });
 
-export const publishersResourceType: ResourceTypeDefinition = {
-  resourceSchema: PublisherSchema,
+export const authorsResourceType: ResourceTypeDefinition = {
+  resourceSchema: AuthorSchema,
   resourceJsonLdType: "Organization",
   allowedResourceTypes: ["Organization"],
-  resourceOutputSchema: PublisherOutputSchema,
+  resourceOutputSchema: AuthorOutputSchema,
   compileResource({ resource, helper }) {
     return helper.makeJsonLdDocument("Organization", {
       name: resource.data.name as string,

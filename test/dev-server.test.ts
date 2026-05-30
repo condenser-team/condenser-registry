@@ -22,7 +22,7 @@ test("overrides the root domain for the dev server", () => {
     rootDomain: "https://example.com",
     resourcesRoot: "resources",
     resourceTypes: {
-      games: {},
+      plugins: {},
     },
   };
 
@@ -34,19 +34,19 @@ test("overrides the root domain for the dev server", () => {
 
 test("maps clean resource URLs to generated index files", () => {
   assert.deepEqual(getDevServerPathCandidates("/"), ["/index.json"]);
-  assert.deepEqual(getDevServerPathCandidates("/games"), [
-    "/games",
-    "/games/index.schema.json",
-    "/games/index.json",
-    "/games/index.html",
-    "/games.json",
+  assert.deepEqual(getDevServerPathCandidates("/plugins"), [
+    "/plugins",
+    "/plugins/index.schema.json",
+    "/plugins/index.json",
+    "/plugins/index.html",
+    "/plugins.json",
   ]);
-  assert.deepEqual(getDevServerPathCandidates("/games/lumen-drift"), [
-    "/games/lumen-drift",
-    "/games/lumen-drift/index.schema.json",
-    "/games/lumen-drift/index.json",
-    "/games/lumen-drift/index.html",
-    "/games/lumen-drift.json",
+  assert.deepEqual(getDevServerPathCandidates("/plugins/lumen-drift"), [
+    "/plugins/lumen-drift",
+    "/plugins/lumen-drift/index.schema.json",
+    "/plugins/lumen-drift/index.json",
+    "/plugins/lumen-drift/index.html",
+    "/plugins/lumen-drift.json",
   ]);
 });
 
@@ -60,16 +60,16 @@ test("preserves explicit filenames and strips query strings", () => {
 });
 
 test("detects content types for static files", () => {
-  assert.equal(getDevServerContentType("/games/lumen-drift/index.jpg"), "image/jpeg");
-  assert.equal(getDevServerContentType("/games/lumen-drift/index.png"), "image/png");
+  assert.equal(getDevServerContentType("/plugins/lumen-drift/index.jpg"), "image/jpeg");
+  assert.equal(getDevServerContentType("/plugins/lumen-drift/index.png"), "image/png");
   assert.equal(getDevServerContentType("/docs/index.html"), "text/html; charset=utf-8");
-  assert.equal(getDevServerContentType("/games/index.json"), "application/json; charset=utf-8");
+  assert.equal(getDevServerContentType("/plugins/index.json"), "application/json; charset=utf-8");
   assert.equal(getDevServerContentType("/assets/file.bin"), "application/octet-stream");
 });
 
 test("development builds remove stale output and do not mix production origins", async () => {
   const registry: SchemaRegistry = {
-    games: {
+    plugins: {
       resourceSchema: z.object({
         type: z.literal("SoftwareApplication"),
         name: z.string(),
@@ -89,11 +89,11 @@ test("development builds remove stale output and do not mix production origins",
   };
 
   const cwd = await makeFixture({
-    "resources/games/lumen-drift/index.yaml":
-      "type: SoftwareApplication\nname: Lumen Drift\nurl: /games/lumen-drift\nimage: /games/lumen-drift/index.jpg\n",
-    "resources/games/lumen-drift/index.jpg": "jpg payload",
-    "out/games/lumen/index.json":
-      '{ "@id": "http://localhost:3000/games/lumen", "url": "https://example.com/games/lumen", "image": "https://example.com/images/lumen.png" }',
+    "resources/plugins/lumen-drift/index.yaml":
+      "type: SoftwareApplication\nname: Lumen Drift\nurl: /plugins/lumen-drift\nimage: /plugins/lumen-drift/index.jpg\n",
+    "resources/plugins/lumen-drift/index.jpg": "jpg payload",
+    "out/plugins/lumen/index.json":
+      '{ "@id": "http://localhost:3000/plugins/lumen", "url": "https://example.com/plugins/lumen", "image": "https://example.com/images/lumen.png" }',
   });
 
   await runBuild(
@@ -101,15 +101,15 @@ test("development builds remove stale output and do not mix production origins",
       cwd,
       write: true,
       mode: "development",
-      config: withDevServerConfig(makeTestConfig({ games: {} })),
+      config: withDevServerConfig(makeTestConfig({ plugins: {} })),
     },
     registry,
   );
 
-  await assert.rejects(() => fs.readFile(path.join(cwd, "out/games/lumen/index.json"), "utf8"));
+  await assert.rejects(() => fs.readFile(path.join(cwd, "out/plugins/lumen/index.json"), "utf8"));
 
   const resource = JSON.parse(
-    await fs.readFile(path.join(cwd, "out/games/lumen-drift/index.json"), "utf8"),
+    await fs.readFile(path.join(cwd, "out/plugins/lumen-drift/index.json"), "utf8"),
   ) as JsonObject;
   const serialized = JSON.stringify(resource);
   assert.ok(serialized.includes(DEV_SERVER_ORIGIN));

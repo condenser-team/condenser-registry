@@ -16,10 +16,10 @@ export async function makeFixture(files: Record<string, string>): Promise<string
 
 export function makeTestConfig(
   resourceTypes: ProjectConfig["resourceTypes"] = {
-    games: {
-      searchAttributes: ["genre"],
+    plugins: {
+      searchAttributes: ["category"],
     },
-    publishers: {},
+    authors: {},
   },
 ): ProjectConfig {
   return {

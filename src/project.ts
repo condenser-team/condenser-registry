@@ -1,7 +1,7 @@
 import type { ProjectConfig, SchemaRegistry } from "./core/types.js";
 
-import { gamesResourceType } from "./resources/games.js";
-import { publishersResourceType } from "./resources/publishers.js";
+import { pluginsResourceType } from "./resources/plugins.js";
+import { authorsResourceType } from "./resources/authors.js";
 
 export interface ProjectDefinition {
   config: ProjectConfig;
@@ -12,19 +12,19 @@ export const projectDefinition: ProjectDefinition = {
   config: {
     apiName: "Static API JSON Schema",
     apiVersion: "0.1.0",
-    rootDomain: "https://kmturley.github.io/static-api-json-schema",
+    rootDomain: "https://condenser-team.github.io/condenser-registry",
     resourcesRoot: "resources",
     resourceTypes: {
-      games: {
-        searchAttributes: ["genre", "tags", { attribute: "name", strategy: "substring" as const }],
+      plugins: {
+        searchAttributes: ["category", "tags", { attribute: "name", strategy: "substring" as const }],
       },
-      publishers: {
+      authors: {
         searchAttributes: [{ attribute: "name", strategy: "substring" as const }],
       },
     },
   },
   schemaRegistry: {
-    games: gamesResourceType,
-    publishers: publishersResourceType,
+    plugins: pluginsResourceType,
+    authors: authorsResourceType,
   },
 };
