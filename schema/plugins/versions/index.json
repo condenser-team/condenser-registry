@@ -94,8 +94,6 @@
         "required": [
           "@type",
           "name",
-          "contentSize",
-          "sha256",
           "contentUrl",
           "encodingFormat",
           "license"
