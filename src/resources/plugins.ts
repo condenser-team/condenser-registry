@@ -20,7 +20,8 @@ const PluginSchema = z.object({
 const OS = z.enum(["windows", "macos", "linux", "android", "ios", "web"]);
 const Arch = z.enum(["x86", "x86_64", "arm", "arm64", "wasm"]);
 
-const PluginFileSchema = z.object({
+// A file can be either a local asset (path:) or an external release URL (url:).
+const PluginFileLocalSchema = z.object({
   name: z.string().min(1).max(128),
   path: z.string().min(3).max(256),
   encodingFormat: z.string().min(1).max(128),
@@ -28,6 +29,18 @@ const PluginFileSchema = z.object({
   operatingSystem: z.array(OS).min(1).optional(),
   processorRequirements: z.array(Arch).min(1).optional(),
 });
+
+const PluginFileExternalSchema = z.object({
+  name: z.string().min(1).max(128),
+  url: HttpsUrl,
+  sha256: z.string().regex(/^[a-f0-9]{64}$/).optional(),
+  encodingFormat: z.string().min(1).max(128),
+  license: HttpsUrl,
+  operatingSystem: z.array(OS).min(1).optional(),
+  processorRequirements: z.array(Arch).min(1).optional(),
+});
+
+const PluginFileSchema = z.union([PluginFileLocalSchema, PluginFileExternalSchema]);
 
 const PluginVersionSchema = z.object({
   type: z.literal("SoftwareApplication"),
@@ -87,8 +100,8 @@ const PluginVersionOutputSchema = z.object({
     z.object({
       "@type": z.literal("MediaObject"),
       name: z.string(),
-      contentSize: z.number().int().nonnegative(),
-      sha256: z.string().regex(/^[a-f0-9]{64}$/),
+      contentSize: z.number().int().nonnegative().optional(),
+      sha256: z.string().regex(/^[a-f0-9]{64}$/).optional(),
       contentUrl: z.string().url(),
       encodingFormat: z.string(),
       license: z.string().url(),
@@ -124,39 +137,58 @@ export const pluginsResourceType: ResourceTypeDefinition = {
     });
   },
   compileVersion({ resource, version, helper }) {
+    type LocalFile = {
+      name: string; path: string; encodingFormat: string; license: string;
+      operatingSystem?: string[]; processorRequirements?: string[];
+    };
+    type ExternalFile = {
+      name: string; url: string; sha256?: string; encodingFormat: string; license: string;
+      operatingSystem?: string[]; processorRequirements?: string[];
+    };
+    type AnyFile = LocalFile | ExternalFile;
+
+    const files = version.data.files as AnyFile[];
+
     return helper.makeJsonLdDocumentAt(helper.versionUrl(version.versionId), "SoftwareApplication", {
       name: `${resource.data.name as string} ${version.data.version as string}`,
       version: version.data.version as string,
       datePublished: version.data.datePublished as string,
       releaseNotes: version.data.releaseNotes as string,
       isPartOf: helper.toReferenceObject(helper.resourceUrl(), "SoftwareApplication", resource.data.name as string),
-      associatedMedia: (
-        version.data.files as Array<{
-          name: string;
-          path: string;
-          encodingFormat: string;
-          license: string;
-          operatingSystem?: string[];
-          processorRequirements?: string[];
-        }>
-      ).map((file) => ({
-        "@type": "MediaObject",
-        name: file.name,
-        ...(helper.copyAsset(
-          {
-            path: file.path,
+      associatedMedia: files.map((file) => {
+        if ("url" in file) {
+          // External release URL — emit as-is, no local asset copy.
+          return {
+            "@type": "MediaObject",
+            name: file.name,
+            contentUrl: file.url,
             encodingFormat: file.encodingFormat,
             license: file.license,
+            ...(file.sha256 ? { sha256: file.sha256 } : {}),
             ...(file.operatingSystem ? { operatingSystem: file.operatingSystem as JsonValue } : {}),
             ...(file.processorRequirements ? { processorRequirements: file.processorRequirements as JsonValue } : {}),
-          },
-          {
-            resourceType: version.resourceType,
-            resourceId: version.resourceId,
-            versionId: version.versionId,
-          },
-        ) as JsonObject),
-      })),
+          };
+        }
+        // Local asset — copy into the registry output and compute sha256/contentSize.
+        return {
+          "@type": "MediaObject",
+          name: file.name,
+          ...(helper.copyAsset(
+            {
+              path: file.path,
+              encodingFormat: file.encodingFormat,
+              license: file.license,
+              ...(file.operatingSystem ? { operatingSystem: file.operatingSystem as JsonValue } : {}),
+              ...(file.processorRequirements ? { processorRequirements: file.processorRequirements as JsonValue } : {}),
+            },
+            {
+              resourceType: version.resourceType,
+              resourceId: version.resourceId,
+              versionId: version.versionId,
+            },
+          ) as JsonObject),
+        };
+      }),
     });
   },
 };
