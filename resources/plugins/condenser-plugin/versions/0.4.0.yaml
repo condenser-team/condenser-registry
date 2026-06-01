@@ -1,0 +1,12 @@
+type: SoftwareApplication
+version: 0.4.0
+datePublished: 2026-05-29
+releaseNotes: Testing plugin
+files:
+  - name: condenser-plugin 0.4.0
+    url: https://github.com/condenser-team/condenser-plugin/releases/download/v0.4.0/condenser-plugin-0.4.0.zip
+    sha256: dfd2f0f885f30278b6ef1114a2ceb80f78cd6b8fa1112e7cccbee2e690f0d670
+    encodingFormat: application/zip
+    license: https://spdx.org/licenses/MIT.html
+    operatingSystem: [linux, macos, windows]
+    processorRequirements: [x86_64, arm64]
