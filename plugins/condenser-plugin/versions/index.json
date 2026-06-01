@@ -1,0 +1,24 @@
+{
+  "$schema": "https://condenser-team.github.io/condenser-registry/schema/version",
+  "@context": "https://schema.org/",
+  "@type": "ItemList",
+  "@id": "https://condenser-team.github.io/condenser-registry/plugins/condenser-plugin/versions",
+  "name": "condenser-plugin versions",
+  "about": [
+    {
+      "@id": "https://condenser-team.github.io/condenser-registry/plugins/condenser-plugin",
+      "@type": "SoftwareApplication",
+      "name": "Example Plugin"
+    }
+  ],
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "item": {
+        "@id": "https://condenser-team.github.io/condenser-registry/plugins/condenser-plugin/versions/0.4.0",
+        "@type": "SoftwareApplication",
+        "name": "Example Plugin 0.4.0"
+      }
+    }
+  ]
+}
