@@ -3,7 +3,9 @@ import { z } from "zod";
 import type { JsonObject, JsonValue, ResourceTypeDefinition } from "../core/types.js";
 import { resolvePublicUrl } from "../core/utils.js";
 
-const HttpsUrl = z.string().min(8).max(256).startsWith("https://");
+const HttpsUrl = z.string().min(8).max(512).startsWith("https://");
+// File download URLs must be hosted on GitHub — prevents arbitrary external fetches.
+const GitHubUrl = z.string().min(8).max(512).startsWith("https://github.com/");
 const PublicUrl = z.union([HttpsUrl, z.string().min(1).max(256).startsWith("/")]);
 
 const PluginSchema = z.object({
@@ -32,8 +34,11 @@ const PluginFileLocalSchema = z.object({
 
 const PluginFileExternalSchema = z.object({
   name: z.string().min(1).max(128),
-  url: HttpsUrl,
-  sha256: z.string().regex(/^[a-f0-9]{64}$/).optional(),
+  url: GitHubUrl,
+  sha256: z
+    .string()
+    .regex(/^[a-f0-9]{64}$/)
+    .optional(),
   encodingFormat: z.string().min(1).max(128),
   license: HttpsUrl,
   operatingSystem: z.array(OS).min(1).optional(),
@@ -101,7 +106,10 @@ const PluginVersionOutputSchema = z.object({
       "@type": z.literal("MediaObject"),
       name: z.string(),
       contentSize: z.number().int().nonnegative().optional(),
-      sha256: z.string().regex(/^[a-f0-9]{64}$/).optional(),
+      sha256: z
+        .string()
+        .regex(/^[a-f0-9]{64}$/)
+        .optional(),
       contentUrl: z.string().url(),
       encodingFormat: z.string(),
       license: z.string().url(),
@@ -138,12 +146,21 @@ export const pluginsResourceType: ResourceTypeDefinition = {
   },
   compileVersion({ resource, version, helper }) {
     type LocalFile = {
-      name: string; path: string; encodingFormat: string; license: string;
-      operatingSystem?: string[]; processorRequirements?: string[];
+      name: string;
+      path: string;
+      encodingFormat: string;
+      license: string;
+      operatingSystem?: string[];
+      processorRequirements?: string[];
     };
     type ExternalFile = {
-      name: string; url: string; sha256?: string; encodingFormat: string; license: string;
-      operatingSystem?: string[]; processorRequirements?: string[];
+      name: string;
+      url: string;
+      sha256?: string;
+      encodingFormat: string;
+      license: string;
+      operatingSystem?: string[];
+      processorRequirements?: string[];
     };
     type AnyFile = LocalFile | ExternalFile;
 

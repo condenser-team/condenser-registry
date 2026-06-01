@@ -381,6 +381,51 @@ test("breaking change detection: adding required field to schema fails old data"
   assert.ok(result.error.issues.some((issue) => issue.path.includes("image")));
 });
 
+test("accepts GitHub HTTPS URLs for external plugin files", () => {
+  const versionData = {
+    type: "SoftwareApplication",
+    version: "1.0.0",
+    datePublished: "2024-01-01",
+    releaseNotes: "Initial release",
+    files: [
+      {
+        name: "my-plugin 1.0.0",
+        url: "https://github.com/owner/repo/releases/download/v1.0.0/plugin.zip",
+        encodingFormat: "application/zip",
+        license: "https://spdx.org/licenses/MIT.html",
+      },
+    ],
+  };
+
+  const registry = projectDefinition.schemaRegistry;
+  assert(registry.plugins?.versionSchema, "plugins versionSchema must be defined");
+  const result = registry.plugins.versionSchema.safeParse(versionData);
+  assert.equal(result.success, true);
+});
+
+test("rejects non-GitHub HTTPS URLs for external plugin files", () => {
+  const versionData = {
+    type: "SoftwareApplication",
+    version: "1.0.0",
+    datePublished: "2024-01-01",
+    releaseNotes: "Initial release",
+    files: [
+      {
+        name: "my-plugin 1.0.0",
+        url: "https://example.com/downloads/plugin.zip",
+        encodingFormat: "application/zip",
+        license: "https://spdx.org/licenses/MIT.html",
+      },
+    ],
+  };
+
+  const registry = projectDefinition.schemaRegistry;
+  assert(registry.plugins?.versionSchema, "plugins versionSchema must be defined");
+  const result = registry.plugins.versionSchema.safeParse(versionData);
+  assert.equal(result.success, false);
+  assert.ok(result.error?.issues.some((issue) => issue.path.includes("url")));
+});
+
 test("optional field addition: new optional fields don't break old data", () => {
   // Simulate adding an optional 'rating' field
   const evolvedSchema = z.object({
