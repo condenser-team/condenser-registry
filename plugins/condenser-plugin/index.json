@@ -3,7 +3,7 @@
   "@context": "https://schema.org/",
   "@type": "SoftwareApplication",
   "@id": "https://condenser-team.github.io/condenser-registry/plugins/condenser-plugin",
-  "name": "Example Plugin",
+  "name": "Condenser Plugin",
   "description": "Demo plugin demonstrating all Condenser surfaces: Tab, Panel, Page, Persistent, Toast, Modal, and Context Menu.",
   "applicationCategory": "adventure",
   "keywords": [
@@ -20,12 +20,12 @@
     {
       "@id": "https://condenser-team.github.io/condenser-registry/plugins/condenser-plugin/versions/0.4.0",
       "@type": "SoftwareApplication",
-      "name": "Example Plugin 0.4.0"
+      "name": "Condenser Plugin 0.4.0"
     }
   ],
   "latestVersion": {
     "@id": "https://condenser-team.github.io/condenser-registry/plugins/condenser-plugin/versions/0.4.0",
     "@type": "SoftwareApplication",
-    "name": "Example Plugin 0.4.0"
+    "name": "Condenser Plugin 0.4.0"
   }
 }

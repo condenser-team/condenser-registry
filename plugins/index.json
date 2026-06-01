@@ -10,7 +10,7 @@
       "item": {
         "@id": "https://condenser-team.github.io/condenser-registry/plugins/condenser-plugin",
         "@type": "SoftwareApplication",
-        "name": "Example Plugin"
+        "name": "Condenser Plugin"
       }
     }
   ]

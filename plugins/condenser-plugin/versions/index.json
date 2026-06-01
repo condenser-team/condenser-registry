@@ -8,7 +8,7 @@
     {
       "@id": "https://condenser-team.github.io/condenser-registry/plugins/condenser-plugin",
       "@type": "SoftwareApplication",
-      "name": "Example Plugin"
+      "name": "Condenser Plugin"
     }
   ],
   "itemListElement": [
@@ -17,7 +17,7 @@
       "item": {
         "@id": "https://condenser-team.github.io/condenser-registry/plugins/condenser-plugin/versions/0.4.0",
         "@type": "SoftwareApplication",
-        "name": "Example Plugin 0.4.0"
+        "name": "Condenser Plugin 0.4.0"
       }
     }
   ]

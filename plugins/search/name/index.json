@@ -15,9 +15,17 @@
     {
       "@type": "ListItem",
       "item": {
-        "@id": "https://condenser-team.github.io/condenser-registry/plugins/search/name/a",
+        "@id": "https://condenser-team.github.io/condenser-registry/plugins/search/name/c",
         "@type": "ItemList",
-        "name": "a"
+        "name": "c"
+      }
+    },
+    {
+      "@type": "ListItem",
+      "item": {
+        "@id": "https://condenser-team.github.io/condenser-registry/plugins/search/name/d",
+        "@type": "ItemList",
+        "name": "d"
       }
     },
     {
@@ -55,17 +63,17 @@
     {
       "@type": "ListItem",
       "item": {
-        "@id": "https://condenser-team.github.io/condenser-registry/plugins/search/name/m",
+        "@id": "https://condenser-team.github.io/condenser-registry/plugins/search/name/n",
         "@type": "ItemList",
-        "name": "m"
+        "name": "n"
       }
     },
     {
       "@type": "ListItem",
       "item": {
-        "@id": "https://condenser-team.github.io/condenser-registry/plugins/search/name/n",
+        "@id": "https://condenser-team.github.io/condenser-registry/plugins/search/name/o",
         "@type": "ItemList",
-        "name": "n"
+        "name": "o"
       }
     },
     {
@@ -79,17 +87,25 @@
     {
       "@type": "ListItem",
       "item": {
-        "@id": "https://condenser-team.github.io/condenser-registry/plugins/search/name/u",
+        "@id": "https://condenser-team.github.io/condenser-registry/plugins/search/name/r",
         "@type": "ItemList",
-        "name": "u"
+        "name": "r"
       }
     },
     {
       "@type": "ListItem",
       "item": {
-        "@id": "https://condenser-team.github.io/condenser-registry/plugins/search/name/x",
+        "@id": "https://condenser-team.github.io/condenser-registry/plugins/search/name/s",
         "@type": "ItemList",
-        "name": "x"
+        "name": "s"
+      }
+    },
+    {
+      "@type": "ListItem",
+      "item": {
+        "@id": "https://condenser-team.github.io/condenser-registry/plugins/search/name/u",
+        "@type": "ItemList",
+        "name": "u"
       }
     }
   ]

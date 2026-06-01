@@ -3,14 +3,14 @@
   "@context": "https://schema.org/",
   "@type": "SoftwareApplication",
   "@id": "https://condenser-team.github.io/condenser-registry/plugins/condenser-plugin/versions/0.4.0",
-  "name": "Example Plugin 0.4.0",
+  "name": "Condenser Plugin 0.4.0",
   "version": "0.4.0",
   "datePublished": "2026-05-29",
   "releaseNotes": "Testing plugin",
   "isPartOf": {
     "@id": "https://condenser-team.github.io/condenser-registry/plugins/condenser-plugin",
     "@type": "SoftwareApplication",
-    "name": "Example Plugin"
+    "name": "Condenser Plugin"
   },
   "associatedMedia": [
     {
