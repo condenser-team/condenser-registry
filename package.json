@@ -4,7 +4,7 @@
   "type": "module",
   "description": "Transform yaml into schema.org-compatible JSON-LD files and deploy as a static API.",
   "author": "kmturley",
-  "license": "cc0-1.0",
+  "license": "LGPL-2.1",
   "keywords": [
     "static",
     "api",
